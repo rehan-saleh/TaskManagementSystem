@@ -1,0 +1,218 @@
+<div>
+  <!-- Navbar -->
+  <app-sidebar></app-sidebar>
+</div>
+
+<div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#userModal"
+    (click)="ClearForm()"
+  >
+    Create User
+  </button>
+
+  <!-- Modal for adding designation -->
+  <div class="modal fade" id="userModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add User</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="userForm" #f="ngForm">
+            <fieldset>
+              <label for="employeeName">Employee</label>
+              <div class="input-group">
+                <select
+                  class="form-control"
+                  [(ngModel)]="user.employeeId"
+                  id="employeeId"
+                  formControlName="employeeId"
+                >
+                  <option *ngFor="let e of employees" [value]="e.EmployeeId"
+                    >{{ e.EmployeeName }} | {{ e.EmployeeCode }} |
+                    {{ e.DepartmentName }}</option
+                  >
+                </select>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                    <i
+                      class="fa fa-search"
+                      data-toggle="modal"
+                      data-target="#searchEmployeeModal"
+                    ></i>
+                  </button>
+                </span>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="userName">Login Name</label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="user.userName"
+                  type="text"
+                  id="userName"
+                  formControlName="userName"
+                />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="user.password"
+                  type="text"
+                  id="password"
+                  formControlName="password"
+                />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="user.confirmPassword"
+                  type="text"
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <label for="userRoles">Role</label>
+              <div class="form-group">
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Roles'"
+                  [data]="roles"
+                  [(ngModel)]="selectedRoles"
+                  [settings]="ngxMultiDropdownSettings"
+                  formControlName="userRoles"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn"
+            data-dismiss="modal"
+            (click)="AddUserInRole()"
+            [disabled]="!f.valid || user.password !== user.confirmPassword"
+          >
+            Create Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for searching employees -->
+  <div class="modal fade" id="searchEmployeeModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Search Employee</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Name/Code</th>
+                <th>Department</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let e of employees">
+                <td>{{ e.CompanyName }}</td>
+                <td>{{ e.EmployeeName }} / {{ e.EmployeeCode }}</td>
+                <td>{{ e.DepartmentName }}</td>
+                <td>
+                  <a
+                    (click)="SelectEmployee(e)"
+                    data-toggle="modal"
+                    data-target="#searchEmployeeModal"
+                    ><i class="fas fa-check"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for showing records -->
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Username</th>
+          <th>Employee</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let e of employeesInRoles">
+          <td>{{ e.EmployeeCompanyName }}</td>
+          <td>{{ e.UserName }}</td>
+          <td>
+            {{ e.EmployeeName }} | {{ e.EmployeeDepartmentName }} ||
+            {{ e.EmployeeCode }}
+          </td>
+          <td>
+            <a
+              (click)="EditUser(e)"
+              data-toggle="modal"
+              data-target="#userModal"
+              ><i class="far fa-edit"></i
+            ></a>
+          </td>
+          <td>
+            <a (click)="DeleteUser(e.UserId)"><i class="fas fa-eraser"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+/TaskManagementServiceAPI/.vs
+/TaskManagementServiceAPI/TaskManagementService.Repository/bin
+/TaskManagementServiceAPI/TaskManagementService.Repository/obj
+/TaskManagementServiceAPI/TaskManagementService.DAL/bin
+/TaskManagementServiceAPI/TaskManagementService.DAL/obj
+/TaskManagementServiceAPI/TaskManagementService.BLL/bin
+/TaskManagementServiceAPI/TaskManagementService.BLL/obj
+/TaskManagementServiceAPI/TaskManagementService.Common/obj
+/TaskManagementServiceAPI/TaskManagementService.Common/bin
+/TaskManagementServiceAPI/TaskManagementService.Service/obj
+/TaskManagementServiceAPI/TaskManagementService.Service/bin
+/TaskManagementServiceAPI/TaskManagementServiceAPI/obj
+/TaskManagementServiceAPI/TaskManagementServiceAPI/bin
+/TaskManagementServiceAPI/TaskManagementServiceAPI.Tests/obj
+/TaskManagementServiceAPI/TaskManagementServiceAPI.Tests/bin

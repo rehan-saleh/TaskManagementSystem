@@ -1,0 +1,332 @@
+<div>
+  <app-sidebar></app-sidebar>
+</div>
+
+<!--Modal for registering Task-->
+<div class="container">
+  <br>
+  <a class="btn btn-success col-md-offset-1" data-toggle="modal" data-target="#RegTaskModal"><b>Register Task</b></a>
+  <form class="form-horizontal" [formGroup]="registerTaskForm" #f="ngForm" (ngSubmit)="Save()" novalidate>
+    <div id="RegTaskModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title"><b>Register & Task Assign</b></p>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="well">
+              <fieldset>
+                <div class="form-group">
+                  <label for="TaskSubject">Subject</label>
+                  <input [(ngModel)]="task.taskSubject" type="text" id="TaskSubject" formControlName="TaskSubject"
+                    class="form-control" placeholder="Enter small detail about your task" required>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                  <label for="TaskBody">More Details</label>
+                  <textarea [(ngModel)]="task.taskBody" id="TaskBody" formControlName="TaskBody" class="form-control"
+                    rows="4"></textarea>
+                </div>
+
+                <!-- Multiple Radios (inline) -->
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md">
+                      <label for="TaskTypeId">Assign To</label>
+                      <div class="form-check offset-1" *ngFor="let t of tasktypes">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" name="TaskType" [(ngModel)]="task.taskTypeId"
+                            [value]="t.TaskTypeId" formControlName="TaskType">{{t.TaskTypeName}}
+                        </label>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md">
+                      <label for="TaskTypeId">Priority</label>
+                      <div class="form-check offset-1" *ngFor="let p of priorities">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" name="Priority" [(ngModel)]="task.priorityId"
+                            [value]="p.PriorityId" formControlName="Priority">{{p.PriorityName}}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                  <div *ngIf="task.taskTypeId === 2">
+                    <label>Select Department</label>
+                    <select class="form-control" formControlName="AssignedToCode" [(ngModel)]="task.departmentId">
+                      <option [value]="0">--Select--</option>
+                      <option *ngFor="let d of departments" [value]="d.DepartmentId">{{d.DepartmentName}}</option>
+                    </select>
+                  </div>
+                  <div *ngIf="task.taskTypeId === 1">
+                    <label>Select Individual</label>
+                    <select class="form-control" formControlName="AssignedToCode" [(ngModel)]="task.employeeId">
+                      <option [value]="0">--Select--</option>
+                      <option *ngFor="let e of employees" [value]="e.EmployeeId">{{e.EmployeeName}} | {{e.EmployeeCode}}
+                        | {{e.DepartmentName}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!--Text input-->
+                <div class="form-group">
+                  <label for="DueDate">Due Date</label>
+                  <input [(ngModel)]="task.dueDate" type="date" id="DueDate" formControlName="DueDate"
+                    class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <div class="d-flex flex-row-reverse">
+                    <div class="p-2">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                      </button>
+                    </div>
+                    <div class="p-2">
+                      <button type="submit" class="btn btn-primary" data-toggle="modal"
+                        [disabled]="!registerTaskForm.valid" data-target="#RegTaskModal">
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<br>
+<div class="container">
+  <h2>
+    All Active Tasks <a class="glyphicon glyphicon-search" (click)="divFilter()"></a>
+  </h2>
+  <div class="row">
+    <div class="well" *ngIf="filChk">
+      <!--filter all data-->
+      <div class="row">
+        <br />
+        <div *ngIf="isSuperUser == 1" class="col-md-4">
+          <label class="col-md-6 control-label">Show Closed Tasks:</label>
+          <div class="col-md-1">
+            <input type="checkbox" (change)="ShowClosedTasks($event.target)" /><br />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="col-md-2 control-label">From:</label>
+          <div class="col-md-10">
+            <input #fd type="date" class="form-control" (change)="FDateFilter(fd.value)" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="col-md-2 control-label">To:</label>
+          <div class="col-md-10">
+            <input #td type="date" class="form-control" (change)="TDateFilter(td.value)" /><br />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="col-md-3 control-label">Priority:</label>
+          <div class="col-md-9">
+            <select #sw class="form-control" (change)="PriorityFilter(sw.value)">
+              <option [value]="0">--Select--</option>
+              <option [value]="1">Urgent</option>
+              <option [value]="2">Routine</option>
+              <option [value]="3">Report after done</option>
+            </select><br />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="col-md-3 control-label">Department Wise:</label>
+          <div class="col-md-9">
+            <select #dw class="form-control" (change)="DeptFilter(dw.value)">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let d of depts" [value]="d.CompDeptCode">
+                {{d.CompDepartmentName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="col-md-2 control-label">Users Wise:</label>
+          <div class="col-md-10">
+            <select #uw class="form-control" (change)="UserFilter(uw.value)">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let u of users" [value]="u.CompEmpCode">
+                {{u.EmpName}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- <spinner [visible]="isLoading"></spinner> -->
+
+      <!--Tasks listed form database-->
+      <ul class="list-group posts">
+
+        <li *ngFor="let T of myTasks" class="list-group-item" [class.active]="currentTask == task" (click)="Select(T)">
+          <i>Sub:-</i><b>{{T.TaskSubject}}</b>
+          <br />
+          |
+          <a (click)="Select(T)" data-toggle="modal" data-target="#myModal">
+            <i class="glyphicon glyphicon-edit clickable">Edit</i>
+          </a>
+          |
+          <b>Task Code</b>: {{T.TaskCode}}
+          |
+          <a *ngIf="T.isReplyed == false" class="fas fa-star" style="color:lawngreen"></a>
+          <a *ngIf="T.isReplyed == true" class="fas fa-star" style="color:red"></a>
+          |
+          <a style="color: coral">{{T.TaskTypeName}}</a>
+          |
+          <a *ngIf="T.isLevel1 || (T.isLevel2 || T.isLevel3)">Level {{T.isLevel1}} {{T.isLevel2}} {{T.isLevel3}}</a>
+          <a *ngIf="!T.isActive" style="color: red">InActive</a>
+        </li>
+      </ul>
+    </div>
+
+    <!--Modal popup to forward levels and mark task Active/Inactive-->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Task</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body" *ngIf="currentTask">
+            <!--Forward Level to tasks-->
+            <div>
+              <!--Levels pushed to temporary array on change-->
+              Forward to Level:
+              <div class="form-group">
+                <input type="checkbox" value="1" #l1 [(ngModel)]="currentTask.isLevel1" /> Level 1<br />
+                <input type="checkbox" value="2" #l2 [(ngModel)]="currentTask.isLevel2" /> Level 2<br />
+                <input type="checkbox" value="3" #l3 [(ngModel)]="currentTask.isLevel3" /> Level 3<br />
+                <!--Save level to database-->
+                <button class="btn btn-primary" data-dismiss="modal" (click)="SaveLvl(l1, l2, l3)">
+                  Forward
+                </button>
+              </div>
+              <h3>
+                Active:
+                <input type="checkbox" [(ngModel)]="currentTask.isActive" />
+              </h3>
+              (Uncheck to close this task...)
+              <br />
+            </div>
+            <!--Button to mark task Active/Inactive-->
+            <button class="btn btn-success" data-dismiss="modal" (click)="UpdateTask(currentTask.AllTaskId)">
+              Update
+            </button>
+            <br />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal for comments -->
+
+    <div id="commentOnTask" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title"><b>Reply</b></p>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="well">
+              <form class="form-horizontal" [formGroup]="registerCommentForm" #f="ngForm" (ngSubmit)="Reply()"
+                novalidate>
+                <fieldset>
+                  <!-- Textarea -->
+                  <div class="form-group">
+                    <label for="Comment" class="col-lg-2 control-label">Comments</label>
+                    <div class="col-lg-10">
+                      <textarea [(ngModel)]="taskDetail.comment" id="Comment" formControlName="Comment"
+                        class="form-control" rows="4"></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#commentOnTask"
+                  [disabled]="!taskDetail.comment">
+                  Reply
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Div for showing details and replies-->
+    <div class="col-md-6" *ngIf="dcheck">
+      <div *ngIf="currentTask" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>
+                <a class="clickable" (click)="dcheck = false">(X)
+                  <p>From: <i>{{currentTask.CreatedBy}}</i></p>
+                </a>
+              </h5>
+            </div>
+            <div class="col-md-6 mygreen" style="text-align: right">
+              <p>
+                Date: {{currentTask.CreatedDate | date:'medium'}}
+                <a data-toggle="modal" data-target="#commentOnTask" class="clickable mygreen">
+                  Reply
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="tgreen">
+            <h4 class="panel-title"><b>Subject:</b> <i>{{currentTask.TaskSubject}}</i></h4>
+          </div>
+        </div>
+        <!--Div for showing replies with username and dept-->
+        <div class="panel-body">
+          <div>
+            <p><b>Assigned To: <u><i>{{currentTask.AssignedToEmployeeName}} ({{currentTask.AssignedToEmployeeDepartmentName}})</i></u></b></p>
+          </div>
+          <p><u><b>Due Date:</b> {{currentTask.DueDate | date}}</u></p>
+          <p>{{currentTask.TaskBody}}</p>
+          <hr />
+          <div class="media" *ngFor="let td of taskDetails">
+            <div class="media-body">
+              <div class="mygreen">
+                <h5 class="media-heading" style="color: #ffffff">
+                  {{td.CommentEmployeeName}} | {{td.CommentEmployeeCode}} | {{td.CommentEmployeeDepartment}}
+                </h5>
+                <h6 style="color: #ffffff">|Reply on: {{td.CommentDateTime | date:'medium'}}</h6>
+              </div>
+              {{td.Comment}}
+            </div>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

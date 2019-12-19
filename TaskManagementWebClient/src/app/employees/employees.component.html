@@ -1,0 +1,212 @@
+<div>
+  <!-- Navbar -->
+  <app-sidebar></app-sidebar>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#employeeModal" (click)="ClearForm()">
+    Add Employee
+  </button>
+
+  <!-- Modal for adding employee -->
+  <div class="modal fade" id="employeeModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Employee</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="employeeForm" #f="ngForm">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeName">Name</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeName" type="text" id="employeeName"
+                        formControlName="employeeName" />
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeCode">Code</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeCode" type="text" id="employeeCode"
+                        formControlName="employeeCode" />
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeEmail2">Business Email</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeEmail2" type="text" id="employeeEmail2"
+                        formControlName="employeeEmail2" />
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeMobile1">Personal Mobile</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeMobile1" type="text"
+                        id="employeeMobile1" formControlName="employeeMobile1" />
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeMobile2">Business Mobile</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeMobile2" type="text"
+                        id="employeeMobile2" formControlName="employeeMobile2" />
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeDepartment">Department</label>
+                      <select class="form-control" [(ngModel)]="employee.departmentId" id="departmentId"
+                        formControlName="departmentId">
+                        <option *ngFor="let d of departments" [value]="d.DepartmentId">{{d.DepartmentName}}</option>
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeCnic">CNIC</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeCnic" type="text" id="employeeCnic"
+                        formControlName="employeeCnic" />
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeEmail1">Personal Email</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeEmail1" type="text" id="employeeEmail1"
+                        formControlName="employeeEmail1" />
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeAddress1">Address 1</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeAddress1" type="text"
+                        id="employeeAddress1" formControlName="employeeAddress1" />
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeAddress2">Address 2</label>
+                      <input class="form-control" [(ngModel)]="employee.employeeAddress2" type="text"
+                        id="employeeAddress2" formControlName="employeeAddress2" />
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeCompany">Company</label>
+                      <select class="form-control" [(ngModel)]="employee.companyId" id="companyId"
+                        formControlName="companyId">
+                        <option *ngFor="let c of companies" [value]="c.CompanyId">{{c.CompanyName}}</option>
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeBranch">Branch</label>
+                      <select class="form-control" [(ngModel)]="employee.branchId" id="branchId"
+                        formControlName="branchId">
+                        <option *ngFor="let b of branches" [value]="b.BranchId">{{b.BranchName}}</option>
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <fieldset>
+                    <div class="form-check">
+                      <label for="employeeDesignation">Designation</label>
+                      <select class="form-control" [(ngModel)]="employee.designationId" id="employeeDesignation"
+                        formControlName="designationId">
+                        <option *ngFor="let d of designations" [value]="d.DesignationId">{{d.DesignationName}}</option>
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn" data-dismiss="modal" (click)="AddUpdateEmployee()"
+            [disabled]="!f.valid">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for showing records -->
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Company</th>
+          <th>Branch</th>
+          <th>Department</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of employees">
+          <td>{{e.EmployeeName}}</td>
+          <td>{{e.EmployeeCode}}</td>
+          <td>{{e.CompanyName}}</td>
+          <td>{{e.BranchName}}</td>
+          <td>{{e.DepartmentName}}</td>
+          <td><a (click)="EditEmployee(e)" data-toggle="modal" data-target="#employeeModal"><i
+                class="far fa-edit"></i></a></td>
+          <td><a (click)="DeleteEmployee(e.EmployeeId)"><i class="fas fa-eraser"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

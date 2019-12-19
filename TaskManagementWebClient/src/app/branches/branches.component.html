@@ -1,0 +1,93 @@
+<div>
+  <!-- Navbar -->
+  <app-sidebar></app-sidebar>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#branchModal" (click)="ClearForm()">
+    Add Branch
+  </button>
+
+  <!-- Modal for adding Branch -->
+  <div class="modal fade" id="branchModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Branch</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="branchesForm" #f="ngForm">
+            <fieldset>
+              <div class="form-group">
+                <label for="branchName">Name</label>
+                <input class="form-control" [(ngModel)]="branch.branchName" type="text" id="branchName"
+                  formControlName="branchName" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="branchAddress">Address</label>
+                <input class="form-control" [(ngModel)]="branch.branchAddress" type="text" id="branchAddress"
+                  formControlName="branchAddress" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="branchEmail">Email</label>
+                <input class="form-control" [(ngModel)]="branch.branchEmail" type="text" id="branchEmail"
+                  formControlName="branchEmail" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="branchCompany">Company</label>
+                <select class="form-control" [(ngModel)]="branch.companyId" id="companyId" formControlName="companyId">
+                  <option *ngFor="let c of companies" [value]="c.CompanyId">{{c.CompanyName}}</option>
+                </select>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn" data-dismiss="modal" (click)="AddUpdateBranch()"
+            [disabled]="!f.valid">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for showing records -->
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Company</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of branches">
+          <td>{{b.BranchName}}</td>
+          <td>{{b.BranchAddress}}</td>
+          <td>{{b.CompanyName}}</td>
+          <td><a (click)="EditBranch(b)" data-toggle="modal" data-target="#branchModal"><i class="far fa-edit"></i></a>
+          </td>
+          <td><a (click)="DeleteBranch(b.BranchId)"><i class="fas fa-eraser"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

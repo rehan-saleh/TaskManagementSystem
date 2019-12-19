@@ -1,0 +1,94 @@
+<div>
+  <!-- Navbar -->
+  <app-sidebar></app-sidebar>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#companyModal" (click)="ClearForm()">
+    Add Company
+  </button>
+
+  <!-- Modal for adding company -->
+  <div class="modal fade" id="companyModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Company</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="companyForm" #f="ngForm">
+            <fieldset>
+              <div class="form-group">
+                <label for="companyName">Name</label>
+                <input class="form-control" [(ngModel)]="company.companyName" type="text" id="companyName"
+                  formControlName="companyName" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="companyAddress">Address</label>
+                <input class="form-control" [(ngModel)]="company.companyAddress" type="text" id="companyAddress"
+                  formControlName="companyAddress" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="companyRegistrationNumber">Registration Number</label>
+                <input class="form-control" [(ngModel)]="company.companyRegistrationNumber" type="text"
+                  id="companyRegistrationNumber" formControlName="companyRegistrationNumber" />
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <div class="form-group">
+                <label for="companyTaxNumber">Tax Number</label>
+                <input class="form-control" [(ngModel)]="company.companyTaxNumber" type="text" id="companyTaxNumber"
+                  formControlName="companyTaxNumber" />
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn" data-dismiss="modal" (click)="AddUpdateCompany()"
+            [disabled]="!f.valid">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for showing records -->
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Registration #</th>
+          <th>Tax #</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of companies">
+          <td>{{c.CompanyName}}</td>
+          <td>{{c.CompanyAddress}}</td>
+          <td>{{c.CompanyRegistrationNumber}}</td>
+          <td>{{c.CompanyTaxNumber}}</td>
+          <td><a (click)="EditCompany(c)" data-toggle="modal" data-target="#companyModal"><i
+                class="far fa-edit"></i></a></td>
+          <td><a (click)="DeleteCompany(c.CompanyId)"><i class="fas fa-eraser"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

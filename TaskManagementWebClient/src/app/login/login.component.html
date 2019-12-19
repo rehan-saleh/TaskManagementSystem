@@ -1,0 +1,23 @@
+<body class="text-center">
+  <form class="form-signin">
+    <div>
+      <img src="assets/images/logo.png" width="100" height="100">
+    </div>
+    <div>
+      <h3 class="font-weight-normal">Task Management System</h3>
+    </div>
+    <div>
+      <label class="sr-only">Username</label>
+      <input class="form-control" placeholder="Username" [(ngModel)]="user.username" name="username" autofocus>
+    </div>
+    <div>
+      <label class="sr-only">Password</label>
+      <input type="password" class="form-control" [(ngModel)]="user.password" placeholder="Password" name="password">
+    </div>
+    <div>
+      <button class="btn btn-lg btn-block" (click)="login()">Sign in</button>
+      <h4 *ngIf="loading">Loading...</h4>
+      <p class="error">{{message}}</p>
+    </div>
+  </form>
+</body>

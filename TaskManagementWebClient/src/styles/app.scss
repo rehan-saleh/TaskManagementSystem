@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../styles/variables.scss";
+
+.error {
+  color: $brand-error;
+}
+
+// .btn {
+//   color: white !important;
+//   background-color: $brand-primary !important;
+// }
+
+.input {
+  border: 1px solid $brand-primary !important;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.thumbnail {
+  border-radius: 100%;
+}
+
+.posts li {
+  cursor: default;
+}
+.posts li:hover {
+  background: $brand-success;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  background-color: $brand-success;
+  border-color: #ecf0f1;
+  color: #ecf0f1;
+}
+
+.mygreen {
+  background-color: $brand-success;
+  color: #ecf0f1;
+}
+.tgreen {
+  color: $brand-success;
+}

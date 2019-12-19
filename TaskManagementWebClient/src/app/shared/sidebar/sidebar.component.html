@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/home" routerLinkActive="active">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmsNavbar" aria-controls="tmsNavbar"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="tmsNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/companies" routerLinkActive="active">Companies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/departments" routerLinkActive="active">Departments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/branches" routerLinkActive="active">Branches</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/employees" routerLinkActive="active">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/designations" routerLinkActive="active">Designations</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/levels" routerLinkActive="active">Levels</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/tasks" routerLinkActive="active">Tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/user-management" routerLinkActive="active">User Management</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link" (click)="logOut()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
